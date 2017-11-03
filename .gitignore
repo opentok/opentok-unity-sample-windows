@@ -1,0 +1,11 @@
+UnityProject/OpenTok/Temp/
+UnityProject/OpenTok/Library/
+UnityProject/OpenTok/OpenTok_Data/
+UnityProject/OpenTok/obj/
+NativePlugin/RenderPlugin/x64/
+NativePlugin/RenderPlugin/Debug/
+NativePlugin/RenderPlugin/ipch/
+UnityProject/OpenTok/.vs/
+NativePlugin/RenderPlugin/.vs/
+*.opendb
+*.db
