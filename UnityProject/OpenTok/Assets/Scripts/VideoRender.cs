@@ -37,7 +37,11 @@ public class VideoRender : IVideoRenderer
     }
 
     public void Dispose()
-    {
+    {        
         RenderPlugin.DestroyRenderer(rendererId);
+        if (buffer[0] != IntPtr.Zero)
+        {
+            Marshal.FreeHGlobal(buffer[0]);
+        }
     }
 }

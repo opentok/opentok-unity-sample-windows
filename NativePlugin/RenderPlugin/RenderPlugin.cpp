@@ -80,11 +80,6 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetRendererFrame(int 
 	
 	UPRenderer *renderer = g_renderer_by_id[renderer_id];
 	WaitForSingleObject(renderer->render_mutex, INFINITE);
-	if (renderer->last_frame) {		
-		//free(renderer->last_frame);
-		//renderer->last_frame = NULL;
-	}
-
 	renderer->last_frame = frame;
 	renderer->frame_width = width;
 	renderer->frame_height = height;
@@ -98,10 +93,6 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API DestroyRenderer(int r
 	if (g_renderer_by_id.find(renderer_id) != g_renderer_by_id.end()) {
 		UPRenderer *renderer = g_renderer_by_id[renderer_id];
 		if (renderer) {
-			if (renderer->last_frame) {
-				free(renderer->last_frame);
-				//otc_video_frame_destroy(renderer->last_frame);
-			}
 			CloseHandle(renderer->render_mutex);			
 
 			g_renderer_by_id.erase(renderer_id);
