@@ -4,39 +4,68 @@ using UnityEngine;
 using OpenTok;
 
 public class OpenTokSession {
-    string SESSION_ID = "1_MX40NTMyODc3Mn5-MTUwOTYxOTY2MDY0NX4vNkpZckxHVzc0MDV6emJIQnYrbk12dEx-fg";
-    string API_KEY = "45328772";
-    string TOKEN = "T1==cGFydG5lcl9pZD00NTMyODc3MiZzaWc9N2Y2MDFjNDdlNzI3YzE3ZDkzZTBlZDdmZDI2ZGRkZTBhMWM0Mjk0MTpzZXNzaW9uX2lkPTFfTVg0ME5UTXlPRGMzTW41LU1UVXdPVFl4T1RZMk1EWTBOWDR2TmtwWmNreEhWemMwTURWNmVtSklRbllyYmsxMmRFeC1mZyZjcmVhdGVfdGltZT0xNTA5NzAwMzY1Jm5vbmNlPTAuNDU1MDcxNDg3MDgwMjg5NjYmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTUwOTc4Njc2NSZjb25uZWN0aW9uX2RhdGE9JTdCJTIydXNlck5hbWUlMjIlM0ElMjJBbm9ueW1vdXMlMjBVc2VyMjQwOCUyMiU3RCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==";
+    string SESSION_ID = "";
+    string API_KEY = "";
+    string TOKEN = "";
+
+    public bool Connected;
 
     Session session;
     Publisher publisher;
     Subscriber subscriber;
 
-    int publisherRenderId;
-    int subscriberRenderId;
+    GameObject publisherGameObject;
+    GameObject subscriberGameObject;
+
+    OpenTokRenderer subscriberRenderer;
+    OpenTokRenderer publisherRenderer;
 
     VideoRender subscriberRender;
     VideoRender publisherRender;
 
-    public OpenTokSession(int publisherId, int subscriberId)
+    public OpenTokSession(GameObject publisherGo, GameObject subscriberGo)
     {
+        Debug.LogFormat("Creating session");
         session = new Session(Context.Instance, API_KEY, SESSION_ID);
         session.Connected += Session_Connected;
         session.Disconnected += Session_Disconnected;
-        session.StreamReceived += Session_StreamReceived;
+        session.StreamReceived += Session_StreamReceived;        
 
-        this.publisherRenderId = publisherId;
-        this.subscriberRenderId = subscriberId;       
+        this.publisherGameObject = publisherGo;
+        this.subscriberGameObject = subscriberGo;
+        subscriberRenderer = subscriberGameObject.GetComponent<OpenTokRenderer>();
+        publisherRenderer = publisherGameObject.GetComponent<OpenTokRenderer>();
     }
 
     private void Session_Disconnected(object sender, System.EventArgs e)
     {
         Debug.Log("Session Disconnected");
+        Connected = false;
         if (subscriber != null)
         {
             subscriber.Dispose();
             subscriber = null;
+
+            subscriberRender.Dispose();
+            subscriberRender = null;
+
+            subscriberRenderer.Enabled = false;
         }
+
+        if (publisher != null)
+        {
+            publisher.Dispose();
+            publisher = null;
+
+            publisherRender.Dispose();
+            publisherRender = null;
+
+            publisherRenderer.Enabled = false;
+        }
+
+        Context.Instance.Dispose();
+
+        Debug.Log("Object disposed");
     }
 
     public void Connect()
@@ -45,24 +74,44 @@ public class OpenTokSession {
     }
     private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
     {
-        Debug.LogFormat("Stream received {0}", e.Stream.Id);       
-        subscriberRender = new VideoRender(subscriberRenderId);
+        if (subscriber != null)
+        {
+            return;
+        }
+        Debug.LogFormat("Stream received {0}", e.Stream.Id);        
+        subscriberRender = new VideoRender(subscriberRenderer.rendererId);
 
-        subscriber = new Subscriber(Context.Instance, e.Stream, subscriberRender);
+        subscriber = new Subscriber(Context.Instance, e.Stream, subscriberRender);       
         session.Subscribe(subscriber);
+
+        subscriberRenderer.Enabled = true;        
     }
 
     private void Session_Connected(object sender, System.EventArgs e)
     {
         Debug.Log("Session Connected");
+        Connected = true;
+
+        Debug.Log("Creating Publisher");
+        publisherRender = new VideoRender(publisherRenderer.rendererId);
+        publisher = new Publisher(Context.Instance, renderer: publisherRender);
+        publisher.StreamCreated += Publisher_StreamCreated;
+        session.Publish(publisher);
+
+        publisherRenderer.Enabled = true;
     }
 
+    private void Publisher_StreamCreated(object sender, Publisher.StreamEventArgs e)
+    {
+        Debug.Log("Publisher Stream Created");
+    }
 
     public void Stop()
     {
         Debug.Log("Stopping OT");
         session.Disconnect();
 
-        Context.Instance.Dispose();
+        var otRenderer = subscriberGameObject.GetComponent<OpenTokRenderer>();
+        otRenderer.Enabled = false;
     }
 }

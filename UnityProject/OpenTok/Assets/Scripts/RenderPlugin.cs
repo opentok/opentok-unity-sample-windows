@@ -22,4 +22,7 @@ public class RenderPlugin
 
     [DllImport("RenderPlugin", EntryPoint = "GetRenderEventFunc", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr GetRenderEventFunc();
+
+    [DllImport("RenderPlugin", EntryPoint = "DestroyRenderer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void DestroyRenderer(int rendererId);
 }

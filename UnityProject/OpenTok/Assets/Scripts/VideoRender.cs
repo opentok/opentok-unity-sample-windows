@@ -17,7 +17,7 @@ public class VideoRender : IVideoRenderer
         rendererId = rID;
         GCHandle.Alloc(buffer, GCHandleType.Pinned);
         GCHandle.Alloc(strides, GCHandleType.Pinned);     
-    }
+    }    
 
     public void RenderFrame(VideoFrame frame)
     {
@@ -34,5 +34,10 @@ public class VideoRender : IVideoRenderer
         }        
         frame.ConvertInPlace(PixelFormat.FormatArgb32, buffer, strides);        
         RenderPlugin.SetRendererFrame(rendererId, buffer[0], w, h);        
+    }
+
+    public void Dispose()
+    {
+        RenderPlugin.DestroyRenderer(rendererId);
     }
 }

@@ -15,6 +15,7 @@ public class SceneScript : MonoBehaviour {
     private OpenTokSession ot;
 	
 	void Start () {
+        Debug.LogFormat("Starting OpenTok sample");
         SetLogCallback();
         StartCoroutine(ConnectAfter());
         
@@ -27,9 +28,23 @@ public class SceneScript : MonoBehaviour {
 
     void OnApplicationQuit()
     {
-        if (ot != null)
+        if (ot != null && ot.Connected)
         {
             ot.Stop();
+
+            while(ot.Connected)
+            {
+                // Wait until session is disconnected
+                new WaitForSeconds(1);
+            }
+        }
+    }
+
+    public void StopSession()
+    {
+        if (ot != null && ot.Connected)
+        {
+            ot.Stop();            
         }
     }
 
@@ -37,8 +52,7 @@ public class SceneScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(2);
 
-        ot = new OpenTokSession(0, //publisher.GetComponent<OpenTokRenderer>().rendererId,
-            subscriber.GetComponent<OpenTokRenderer>().rendererId);
+        ot = new OpenTokSession(publisher, subscriber);
         ot.Connect();
     }
 

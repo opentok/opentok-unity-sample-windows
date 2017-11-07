@@ -9,31 +9,21 @@ public class OpenTokRenderer: MonoBehaviour
     private Texture2D texture;
     public int rendererId;
 
-    private bool visible;
-    public bool Visible
-    {
-        get
-        {
-            return visible;
-        }
-        set
-        {
-            visible = value;
-            GetComponent<Renderer>().enabled = visible;            
-        }
-    }
-
+    public bool Enabled { get; set; }
     void Start()
-    {
+    {        
         texture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
         texture.filterMode = FilterMode.Point;
         texture.Apply();
         GetComponent<MeshRenderer>().material.mainTexture = texture;
         rendererId = RenderPlugin.CreateRenderer();
+        Debug.LogFormat("Creating renderer: {0}", rendererId);
     }
 
     void Update()
-    {        
+    {
+        if (!Enabled) return;
+
         int newWidth = 0, newHeight = 0;
         if (RenderPlugin.ShouldCreateNewTexture(rendererId, ref newWidth, ref newHeight) != 0)
         {                      

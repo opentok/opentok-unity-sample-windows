@@ -231,7 +231,6 @@ static void render(UPRenderer *renderer);
 static void UNITY_INTERFACE_API OnRenderEvent(int eventID)
 {
 	// Unknown / unsupported graphics device type? Do nothing
-	// Unknown graphics device type? Do nothing.
 	if (s_DeviceType == -1) {
 		DebugLog("Device Type -1");
 		return;
