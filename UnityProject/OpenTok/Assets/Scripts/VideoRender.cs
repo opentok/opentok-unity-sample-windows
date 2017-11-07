@@ -28,12 +28,13 @@ public class VideoRender : IVideoRenderer
             if (buffer[0] != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(buffer[0]);
-            }
-            buffer[0] = Marshal.AllocHGlobal(w * h * 4);
-            strides[0] = w * 4;            
-        }        
+            }            
+            buffer[0] = Marshal.AllocHGlobal(frame.Width * frame.Height * 4);
+            strides[0] = frame.Width * 4;            
+        }
         frame.ConvertInPlace(PixelFormat.FormatArgb32, buffer, strides);        
-        RenderPlugin.SetRendererFrame(rendererId, buffer[0], w, h);        
+        RenderPlugin.SetRendererFrame(rendererId, buffer[0], frame.Width, frame.Height);        
+        frame.Dispose();
     }
 
     public void Dispose()
