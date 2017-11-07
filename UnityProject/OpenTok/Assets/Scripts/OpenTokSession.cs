@@ -15,7 +15,7 @@ public class OpenTokSession {
     Subscriber subscriber;
 
     GameObject publisherGameObject;
-    GameObject subscriberGameObject;
+    GameObject subscriberGameObject;    
 
     OpenTokRenderer subscriberRenderer;
     OpenTokRenderer publisherRenderer;
@@ -31,15 +31,15 @@ public class OpenTokSession {
         session.Disconnected += Session_Disconnected;
         session.StreamReceived += Session_StreamReceived;        
 
-        this.publisherGameObject = publisherGo;
-        this.subscriberGameObject = subscriberGo;
+        publisherGameObject = publisherGo;
+        subscriberGameObject = subscriberGo;
         subscriberRenderer = subscriberGameObject.GetComponent<OpenTokRenderer>();
-        publisherRenderer = publisherGameObject.GetComponent<OpenTokRenderer>();
+        publisherRenderer = publisherGameObject.GetComponent<OpenTokRenderer>();        
     }
 
     private void Session_Disconnected(object sender, System.EventArgs e)
     {
-        Debug.Log("Session Disconnected");
+        Debug.Log("Session Disconnected");              
         Connected = false;
         if (subscriber != null)
         {
@@ -70,13 +70,14 @@ public class OpenTokSession {
 
     public void Connect()
     {
+        Debug.LogFormat("Connecting...");     
         session.Connect(TOKEN);
     }
     private void Session_StreamReceived(object sender, Session.StreamEventArgs e)
     {
         if (subscriber != null)
         {
-            return;
+            return; // This sample can only handle one subscriber
         }
         Debug.LogFormat("Stream received {0}", e.Stream.Id);        
         subscriberRender = new VideoRender(subscriberRenderer.rendererId);
@@ -89,7 +90,7 @@ public class OpenTokSession {
 
     private void Session_Connected(object sender, System.EventArgs e)
     {
-        Debug.Log("Session Connected");
+        Debug.Log("Session Connected");        
         Connected = true;
 
         Debug.Log("Creating Publisher");
@@ -108,7 +109,7 @@ public class OpenTokSession {
 
     public void Stop()
     {
-        Debug.Log("Stopping OT");
+        Debug.Log("Stopping OT");        
         session.Disconnect();
 
         var otRenderer = subscriberGameObject.GetComponent<OpenTokRenderer>();
