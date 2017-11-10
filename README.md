@@ -46,3 +46,12 @@ The native plugin will render the frames using DirectX using the texture which w
 Please refer to both README.md for more details of each project.
 1. [Native Plugin README](NativePlugin/RenderPlugin/README.md)
 2. [Unity project README](UnityProject/OpenTok/README.md)
+
+## Obtaining OpenTok Credentials
+
+To use the OpenTok platform you need a session ID, token, and API key.
+You can get these values by creating a project on your [OpenTok Account
+Page](https://tokbox.com/account/) and scrolling down to the Project Tools
+section of your Project page. For production deployment, you must generate the
+session ID and token values using one of the [OpenTok Server
+SDKs](https://tokbox.com/developer/sdks/server/).
