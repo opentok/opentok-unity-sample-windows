@@ -203,7 +203,7 @@ static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType ev
 		}
 #	endif // if SUPPORT_D3D11
 	}
-	//s_CurrentAPI->ProcessDeviceEvent(eventType, s_UnityInterfaces);
+	
 	// Cleanup graphics API implementation upon shutdown
 	if (eventType == kUnityGfxDeviceEventShutdown)
 	{		
