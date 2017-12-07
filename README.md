@@ -3,7 +3,7 @@
 Unity Windows Rendering sample
 =====================================
 
-In this repo you will find a sample of Unity integration of [Opentok Windows SDK](https://tokbox.com/developer/sdks/windows/).
+In this repo, you will find a sample of a Unity integration with the [Opentok Windows SDK](https://tokbox.com/developer/sdks/windows/).
 
 Please note that this sample is only compatible with Windows.
 
