@@ -1,16 +1,16 @@
 Unity OpenTok Sample
 ================================
 
-This sample will show a couple of 3d planes on which the video stream of the participants of a Session will be rendered.
+This sample will show a couple of 3d planes on which the video stream of the participants in a Session will be rendered.
 
 How to Run the sample
 -------------------------
 
-For the sake of simplicity, this sample has already OpenTok Windows SDK v2.12.0 in the `DLL/` folder. However you might want to update them to the latest version of it. Please check [OpenTok at NuGet gallery](https://www.nuget.org/packages/OpenTok.Client/).
+For the sake of simplicity, this sample already has OpenTok Windows SDK v2.12.0 in the `DLL/` folder. However, you might want to update the SDK to the latest version of it. Please check [OpenTok at NuGet gallery](https://www.nuget.org/packages/OpenTok.Client/).
 
-In the `Assets` Folder you will also find a version of [NativePlugin](../../NativePlugin/RenderPlugin) already built into a DLL, so you can open this project, fill the typical `API_KEY`, `TOKEN` and `SESSION_ID` data and run the project.
+In the `Assets` Folder, you will also find a version of [NativePlugin](../../NativePlugin/RenderPlugin) already built into a DLL so you can open this project, fill the typical `API_KEY`, `TOKEN`, and `SESSION_ID` data and run the project.
 
-Code explanation
+Exploring the Code
 -----------------------
 
 The core of this sample lives in `Assets/Script` folder, there you will find:
@@ -21,9 +21,9 @@ This script is attached to a GameObject Scene, and it will be run upon the sampl
 
 ### OpenTokRenderer.cs
 
-This is a Unity/MonoBehaviour subclass compontent that will be attached to Publisher and Subscribers GameObjects inside the unity scene. This Component, in each Update loop, will be in charge of issue plugin events by calling, `GL.IssuePluginEvent(RenderPlugin.GetRenderEventFunc(), rendererId);` or said in other words, every time _IssuePluginEvent_ is called, it will call [`OnRenderEvent`](https://github.com/opentok/UnityRenderingSample/blob/master/NativePlugin/RenderPlugin/RenderPlugin.cpp#L222) in the Native Plugin.
+This is a Unity/MonoBehaviour subclass compontent that will be attached to Publisher and Subscribers GameObjects inside the unity scene. This Component, in each Update loop, will be in charge of issue plugin events by calling, `GL.IssuePluginEvent(RenderPlugin.GetRenderEventFunc(), rendererId);` or in other words, every time _IssuePluginEvent_ is called, it will call [`OnRenderEvent`](https://github.com/opentok/UnityRenderingSample/blob/master/NativePlugin/RenderPlugin/RenderPlugin.cpp#L222) in the Native Plugin.
 
-Besides this, this component will also create the `Texture2D` object, sent the reference to the Native Plugin and assign it to the GameObject it is attached:
+Besides this, this component will also create the `Texture2D` object, send the reference to the Native Plugin, and assign it to the GameObject it is attached:
 
 ```csharp
 texture = new Texture2D(newWidth, newHeight, TextureFormat.BGRA32, false);
@@ -36,7 +36,7 @@ GetComponent<MeshRenderer>().material.mainTexture = texture;
 
 This class operates the OpenTok Windows SDK. This will connect to the session, listen for the _Connected_, or _StreamReceived_ events and creating _Publisher_ and _Subscriber_ objects.
 
-The class takes two parameters in its constructor method, they are the GameObjects where the video will be rendered into. Note that this two GameObjects needs to have a OpenTokRenderer attached.
+The class takes two parameters in its constructor method, they are the GameObjects where the video will be rendered into. Note that these two GameObjects need to have a OpenTokRenderer attached.
 
 Whenever the session is connected or a new stream is received, it will create a _Publisher_ and a _Subscriber_ object, and will configure them to use a `VideoRender` instance.
 

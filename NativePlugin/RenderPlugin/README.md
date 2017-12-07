@@ -8,7 +8,7 @@ How to Build
 
 Open `RenderPlugin.sln` file, select `x64` and `Release` configuration and build the project. When built it should generate a RenderPlugin.dll file in `x64/Release` folder. You will need to copy that Dll to the Unity Project folder.
 
-Code explanation
+Exploring the Code
 ---------------------
 
 The main part of the plugin lives in [RenderPlugin.cpp](RenderPlugin.cpp) file. As you can read in the [main README file](../../README.md), the plugin will receive frames from the Unity Project side, and it's main task is to draw them in the DirectX texture set as render target.
