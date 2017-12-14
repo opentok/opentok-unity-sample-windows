@@ -5,7 +5,12 @@ Unity Windows Rendering sample
 
 In this repo, you will find a sample of a Unity integration with the [Opentok Windows SDK](https://tokbox.com/developer/sdks/windows/).
 
-Please note that this sample is only compatible with Windows.
+Please note that this sample is **only compatible with Windows**.
+
+The sample has been tested in **Unity 2017.1 and 2017.2**. Although we haven't tested it, this should also work with older versions of Unity where the native rendering API is the same we are using.
+
+Projects structure
+=====================================
 
 The repo is formed by two projects, the Unity native plugin for rendering and the Unity project that uses the native plugin to display the video stream of the OpenTok session participants.
 
