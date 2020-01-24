@@ -1,4 +1,3 @@
-![OpenTok Labs](https://d26dzxoao6i3hh.cloudfront.net/items/0U1R0a0e2g1E361H0x3c/Image%202017-11-22%20at%2012.16.38%20PM.png?v=2507a2df)
 
 Unity Windows Rendering sample
 =====================================
@@ -62,3 +61,9 @@ Page](https://tokbox.com/account/) and scrolling down to the Project Tools
 section of your Project page. For production deployment, you must generate the
 session ID and token values using one of the [OpenTok Server
 SDKs](https://tokbox.com/developer/sdks/server/).
+
+## Contributing
+
+If you make changes to the project that you would like to contribute back
+then please follow the [contributing guidelines](CONTRIBUTING.md).
+All contributions are greatly appreciated!
